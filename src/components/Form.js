@@ -6,8 +6,7 @@ function Form(props) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		let nUrl = url ? url : 'http://localhost:8080/';
-		fetchVideo(nUrl).then(data => {
+		fetchVideo('https://youtu.be/NO8iSOv3BBU').then(data => {
 			setList(arr => [...arr, data]);
 		})
 
@@ -19,20 +18,28 @@ function Form(props) {
 	}
 
 	return (
-		<form action="" onSubmit={handleSubmit} >
+		<form action="#" onSubmit={handleSubmit} >
 			<input type="text" name="" id="" onChange={handleChange} />
 			<input type="submit" value="Download"></input>
 		</form>
 	)
 }
-
+/**
+ * 下載影片
+ * @param {String} url youtube URL
+ * @return {Promise}
+ */
 async function fetchVideo(url) {
-	let formData = new FormData();
-	formData.append('url', url);
 	try {
-		let resp = await fetch(url, { method: 'POST' });
-		let data = await resp.json();
-		return JSON.parse(data);
+		let sendObj = { url: url };
+		let resp = await fetch('http://localhost:8080/', {
+			method: 'POST',
+			body: JSON.stringify(sendObj),
+			headers: {
+				'content-type': 'application/json'
+			},
+		});
+		return await resp.json();
 	} catch (err) {
 		console.error(err); // TypeError: failed to fetch
 		throw new Error("Whoops!");
