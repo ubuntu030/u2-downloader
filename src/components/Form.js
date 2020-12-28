@@ -2,14 +2,20 @@ import { useState } from "react";
 
 function Form(props) {
 	const [url, setUrl] = useState('')
-	const { setList } = props;
+	const { list, setList } = props;
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		fetchVideo('https://youtu.be/NO8iSOv3BBU').then(data => {
-			setList(arr => [...arr, data]);
-		})
-
+			const info = data.file;
+			// TODO:後端加入重複項目判斷，對項目id or title 判斷
+			// 避免塞入重複 id的項目
+			let fltrList = list.filter(item => item.id === info.id)
+			if (fltrList.length === 0) {
+				setList(arr => [...arr, info]);
+			}
+			// TODO: error handle
+		});
 	}
 
 	const handleChange = (e) => {
