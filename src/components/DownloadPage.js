@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Form, InputGroup, Button } from "react-bootstrap";
 
-function Form(props) {
+function DownloadPage(props) {
 	const [url, setUrl] = useState('');
 	const { list, setList } = props;
 	// 'https://youtu.be/NO8iSOv3BBU'
@@ -27,10 +28,21 @@ function Form(props) {
 	}
 
 	return (
-		<form action="#" onSubmit={handleSubmit} >
-			<input type="text" name="" id="" value={url} onChange={handleChange} />
-			<input type="submit" value="Download"></input>
-		</form>
+		<div>
+			<Form onSubmit={handleSubmit}>
+				<InputGroup className="mb-3">
+					<Form.Control
+						placeholder="URL of video"
+						aria-label="URL of video"
+						value={url}
+						onChange={handleChange}
+					/>
+					<InputGroup.Append>
+						<Button variant="outline-secondary" type="submit">Download</Button>
+					</InputGroup.Append>
+				</InputGroup>
+			</Form>
+		</div>
 	)
 }
 /**
@@ -55,4 +67,4 @@ async function fetchVideo(url) {
 	}
 }
 
-export default Form;
+export default DownloadPage;

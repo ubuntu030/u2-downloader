@@ -1,6 +1,6 @@
 import { useState } from "react";
 import './App.css';
-import Form from "./components/Form";
+import DownloadPage from "./components/DownloadPage";
 import List from "./components/List";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -50,7 +50,7 @@ function App() {
   return (
     <div className="App">
       <List list={list} handleConvert={convertVideo} />
-      <Form list={list} setList={setList} />
+      <DownloadPage list={list} setList={setList} />
     </div>
   );
 }
