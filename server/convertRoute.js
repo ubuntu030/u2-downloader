@@ -13,12 +13,13 @@ router.post('/', (req, res, _) => {
 	let resObj = {
 		status: 'fail',
 		errmsg: '',
-		file: { name: '', path: '' }
+		file: {}
 	};
+	let fileObj = Object.assign({}, req.body, { mp3path: '' });
 	// 檔案名稱
-	const videoName = req.body.name;
+	const videoName = fileObj.name;
 	// 檔案路徑
-	const videoPath = req.body.path;
+	const videoPath = fileObj.path;
 	const mp3path = path.join(PATH_AUDIO, videoName + '.mp3');
 	ffmpeg(videoPath)
 		.output(mp3path)
@@ -27,8 +28,10 @@ router.post('/', (req, res, _) => {
 			console.log(d);
 			console.log('Finished processing');
 			resObj.status = 'success'
-			resObj.file.path = videoPath;
-			resObj.file.name = videoName + '.mp3';
+			fileObj.path = videoPath;
+			fileObj.mp3path = mp3path
+			fileObj.name = videoName + '.mp3';
+			resObj.file = fileObj;
 			res.json(resObj)
 		})
 		.on('error', err => {

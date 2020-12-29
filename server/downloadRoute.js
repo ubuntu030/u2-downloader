@@ -39,7 +39,8 @@ router.post('/', function (req, res) {
 						resObj.file = {
 							name: VIDEO_NAME,
 							path: SAVE_FILE_PATH,
-							id: info.videoDetails.videoId
+							id: info.videoDetails.videoId,
+							mp3path: ''
 						}
 						res.json(resObj);
 					});
