@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 function Form(props) {
-	const [url, setUrl] = useState('')
+	const [url, setUrl] = useState('');
 	const { list, setList } = props;
-
+	// 'https://youtu.be/NO8iSOv3BBU'
 	const handleSubmit = (e) => {
+		// TODO: add validate
 		e.preventDefault();
-		fetchVideo('https://youtu.be/NO8iSOv3BBU').then(data => {
+		fetchVideo(url).then(data => {
 			const info = data.file;
-			// TODO:後端加入重複項目判斷，對項目id or title 判斷
 			// 避免塞入重複 id的項目
 			if (info && info.id) {
 				let fltrList = list.filter(item => item.id === info.id)
@@ -18,6 +18,7 @@ function Form(props) {
 			}
 			// TODO: error handle
 		});
+		setUrl('');
 	}
 
 	const handleChange = (e) => {
@@ -27,7 +28,7 @@ function Form(props) {
 
 	return (
 		<form action="#" onSubmit={handleSubmit} >
-			<input type="text" name="" id="" onChange={handleChange} />
+			<input type="text" name="" id="" value={url} onChange={handleChange} />
 			<input type="submit" value="Download"></input>
 		</form>
 	)
