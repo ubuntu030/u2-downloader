@@ -19,7 +19,7 @@ function List(props) {
 					list.map(item => {
 						return (<ListGroup.Item key={item.id} id={item.id} className="d-flex justify-content-between">
 							<div>{item.name}</div>
-							<Button variant="primary" onClick={handleClick.bind(this, item.id)}>Primary</Button></ListGroup.Item>
+							<Button variant="primary" onClick={handleClick.bind(this, item.id)}>Convert</Button></ListGroup.Item>
 						)
 					}) : null
 			}
