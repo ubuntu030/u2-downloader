@@ -3,11 +3,22 @@ const path = require('path');
 const ytdl = require('ytdl-core');
 const express = require('express');
 const router = express.Router();
-
+const app = express();
 const PATH_VIDEO = path.join(__dirname, '../video');
 
+router.use(function (req, res, next) {
+	if (req.body && req.body.url) {
+		next();
+	} else {
+		res.send({
+			status: 'fail',
+			errmsg: 'empty URL',
+		});
+	}
+});
+
 router.post('/', function (req, res) {
-	// TODO: url vertify
+	// TODO: url vertify 
 	ytdl.getInfo(req.body.url)
 		.then(info => {
 			if (typeof info === 'object' && info.videoDetails && info.videoDetails.title) {
@@ -25,7 +36,7 @@ router.post('/', function (req, res) {
 				// 取回資料後進行下載
 				let stream = ytdl.downloadFromInfo(
 					info,
-					{ quality: 'highestaudio' }
+					{ quality: 'highest' }
 				);
 				// 在 react-scripts start 啟動下若將檔案寫入public下會觸發refresh
 				// let writable = fs.createWriteStream(path.join(__dirname, '../public', info.videoDetails.title + '.mp4'));
