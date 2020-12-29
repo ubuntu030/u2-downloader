@@ -10,9 +10,11 @@ function Form(props) {
 			const info = data.file;
 			// TODO:後端加入重複項目判斷，對項目id or title 判斷
 			// 避免塞入重複 id的項目
-			let fltrList = list.filter(item => item.id === info.id)
-			if (fltrList.length === 0) {
-				setList(arr => [...arr, info]);
+			if (info && info.id) {
+				let fltrList = list.filter(item => item.id === info.id)
+				if (fltrList.length === 0) {
+					setList(arr => [...arr, info]);
+				}
 			}
 			// TODO: error handle
 		});
@@ -38,7 +40,7 @@ function Form(props) {
 async function fetchVideo(url) {
 	try {
 		let sendObj = { url: url };
-		let resp = await fetch('http://localhost:8080/', {
+		let resp = await fetch('http://localhost:8080/download', {
 			method: 'POST',
 			body: JSON.stringify(sendObj),
 			headers: {
