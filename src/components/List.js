@@ -14,12 +14,15 @@ function List(props) {
 
 	return (
 		<ListGroup>
-			{list.map(item => {
-				return (<ListGroup.Item key={item.id} id={item.id} className="d-flex justify-content-between">
-					<div>{item.name}</div>
-					<Button variant="primary" onClick={handleClick.bind(this, item.id)}>Primary</Button></ListGroup.Item>
-				)
-			})}
+			{
+				Array.isArray(list) && list.length > 0 ?
+					list.map(item => {
+						return (<ListGroup.Item key={item.id} id={item.id} className="d-flex justify-content-between">
+							<div>{item.name}</div>
+							<Button variant="primary" onClick={handleClick.bind(this, item.id)}>Primary</Button></ListGroup.Item>
+						)
+					}) : null
+			}
 		</ListGroup>
 	)
 }
