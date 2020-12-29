@@ -1,9 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const express = require('express');
-const app = express();
 const ytdl = require('ytdl-core');
 const cors = require('cors');
+const express = require('express');
+const app = express();
+const convertRouter = require('./convertRoute');
+
 
 const PORT = 8080;
 const PATH_VIDEO = path.join(__dirname, '../video');
@@ -11,6 +13,8 @@ const PATH_VIDEO = path.join(__dirname, '../video');
 app.use(cors());
 app.use(express.static(PATH_VIDEO))
 app.use(express.json());
+
+app.use('/convert', convertRouter)
 
 app.post('/', function (req, res) {
 	// TODO: url vertify
@@ -49,10 +53,10 @@ app.post('/', function (req, res) {
 				stream.on('error', function (err) {
 					resObj = { status: 'fail', errmsg: err };
 					console.log(err);
-					res.json(resObj); //end the response
+					res.json(resObj);
 				});
 			} else {
-				res.json(resObj); //write a response to the client
+				res.json(resObj);
 			}
 		}).catch(error => {
 			res.json(error)

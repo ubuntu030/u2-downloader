@@ -21,13 +21,14 @@ function App() {
  */
 async function convertVideo(info) {
   try {
-    let resp = await fetch('http://localhost:8080', {
+    let resp = await fetch('http://localhost:8080/convert', {
       method: 'POST',
       body: JSON.stringify(info),
       headers: {
         'content-type': 'application/json'
       },
     });
+    // TODO: popup and show success
     return await resp.json();
   } catch (err) {
     console.log(err);
