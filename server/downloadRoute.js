@@ -3,9 +3,11 @@ const path = require('path');
 const ytdl = require('ytdl-core');
 const express = require('express');
 const router = express.Router();
-const app = express();
+const VideoInfoCtrl = require('./VideoInfoCtrl');
+
 const PATH_VIDEO = path.join(__dirname, '../video');
 
+// TODO: 重新編輯寫入格式，並另外存成JSON..eg {id, name, path, mp3path}
 router.use(function (req, res, next) {
 	if (req.body && req.body.url) {
 		next();
@@ -20,6 +22,7 @@ router.use(function (req, res, next) {
 router.post('/', function (req, res) {
 	try {
 		// TODO: url vertify 
+		// 下載影片
 		ytdl.getInfo(req.body.url)
 			.then(info => {
 				if (typeof info === 'object' && info.videoDetails && info.videoDetails.title) {
