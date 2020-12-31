@@ -36,11 +36,12 @@ router.post('/', function (req, res) {
 					/**
 					 * 無法下載擁有最高品質視訊&音訊 https://github.com/fent/node-ytdl-core/issues/374
 					 * 若要最高品質視音訊，需個下載並合併
+					 * 或參考 https://github.com/fent/node-ytdl-core/issues/770
 					 */
 					// 取回資料後進行下載
 					let stream = ytdl.downloadFromInfo(
 						info,
-						{ quality: 'highest' }
+						{ filter: 'audioandvideo', quality: 'highestvideo' }
 					);
 					// 在 react-scripts start 啟動下若將檔案寫入public下會觸發refresh
 					// let writable = fs.createWriteStream(path.join(__dirname, '../public', info.videoDetails.title + '.mp4'));
@@ -66,7 +67,7 @@ router.post('/', function (req, res) {
 						});
 					});
 					stream.on('error', function (err) {
-						resObj = { status: 'fail', errmsg: err };
+						resObj = { status: 'fail', errmsg: err.message };
 						console.error(err);
 						res.json(resObj);
 					});
