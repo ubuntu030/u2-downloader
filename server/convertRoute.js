@@ -30,15 +30,15 @@ router.post('/', (req, res, _) => {
 			resObj.status = 'success'
 			fileObj.path = videoPath;
 			fileObj.mp3path = mp3path
-			fileObj.name = videoName + '.mp3';
+			fileObj.name = videoName;
 			resObj.file = fileObj;
 			res.json(resObj)
 		})
 		.on('error', err => {
 			// 錯誤處理
-			resObj.errmsg = err.message;
 			console.error(err.message);
-			res.sendStatus(500).send(resObj);
+			resObj.errmsg = err.message;
+			res.json(resObj)
 		})
 		.run();
 });
