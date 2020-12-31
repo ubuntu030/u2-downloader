@@ -34,7 +34,7 @@ function DownloadPage(props) {
 	return (
 		<div>
 			<Form onSubmit={handleSubmit}>
-				<InputGroup className="mb-3">
+				<InputGroup className="fixed-bottom">
 					<Form.Control
 						placeholder="URL of video"
 						aria-label="URL of video"
