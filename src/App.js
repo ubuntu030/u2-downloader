@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   const [list, setList] = useState([]);
   const [dwnloading, setDwnloading] = useState(false);
-  // TODO: loading
 
   /**
    * 影片轉成為mp3
@@ -17,7 +16,7 @@ function App() {
    */
   function convertVideo(info) {
     try {
-      fetch('http://localhost:8080/convert', {
+      return fetch('http://localhost:8080/convert', {
         method: 'POST',
         body: JSON.stringify(info),
         headers: {
@@ -41,7 +40,7 @@ function App() {
           console.log(list);
           // TODO: popup and show success or fail
         }, error => {
-          console.log(error);
+          console.log(error.message);
         });
     } catch (err) {
       console.log(err);

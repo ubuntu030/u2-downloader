@@ -77,10 +77,10 @@ async function fetchVideo(url) {
  */
 function validateYouTubeUrl(url) {
 	let result = false;
-	if (url != undefined || url != '') {
-		const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+	if (url !== undefined || url !== '') {
+		const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|\?v=)([^#&?]*).*/;
 		const match = url.match(regExp);
-		if (match && match[2].length == 11) {
+		if (match && match[2].length === 11) {
 			// Do anything for being valid
 			result = true
 		}
