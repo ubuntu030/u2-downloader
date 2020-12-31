@@ -3,7 +3,8 @@ const util = require('util');
 const fs = require('fs');
 const path = require('path');
 
-const FILE_PATH = path.join(__dirname, '../video/video_info.json');
+const FILE_PATH = path.join(__dirname
+	, '../video/video_info.json');
 
 class VideoInfoCtrl {
 	constructor(props = { id: '123' }) {
@@ -32,6 +33,11 @@ class VideoInfoCtrl {
 	 * @return {Object} 寫入成功後回傳帶有文件資料的物件
 	 */
 	updateFile(info = {}) {
+		let respData = {
+			errmsg: '',
+			data: null
+		};
+		let newData = null;
 		return this.getFile()
 			.then(response => {
 				let oldData = response.data;
@@ -42,25 +48,24 @@ class VideoInfoCtrl {
 				}
 				// 若有重複則不寫入並直接回傳 
 				if (Array.isArray(checkArr) && checkArr[0] && checkArr[0].id) {
-					return {
-						errmsg: '',
-						data: oldData
-					}
+					respData.data = oldData;
+					return respData;
 				}
 				// 確認資訊存在
 				if (!(info.id && info.name)) {
-					return {
-						errmsg: 'info 錯誤',
-						data: null
-					}
+					respData.errmsg = '欲寫入資訊為空';
+					return respData;
 				}
 				// 加入資料並寫進JSON file
-				const newData = oldData.concat([info]);
+				newData = oldData.concat([info]);
 				const writeFile = util.promisify(fs.writeFile);
 				return writeFile(FILE_PATH, JSON.stringify(newData), 'utf8')
-			}).then(data => {
-				console.log(data);
-				return data
+			}).then(err => {
+				if (err) {
+					respData.errmsg = err.message;
+				}
+				respData.data = newData;
+				return respData
 			});
 	}
 	// TODO:檢查另外拉出來做

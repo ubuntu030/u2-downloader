@@ -54,12 +54,14 @@ router.post('/', function (req, res) {
 								res.json(resObj); //write a response to the client
 							}
 							// 確認可讀到file則回傳檔案路徑與檔案名
-							resObj.file = {
+							const fileInfo = {
 								name: VIDEO_NAME,
 								path: SAVE_FILE_PATH,
 								id: info.videoDetails.videoId,
 								mp3path: ''
 							}
+							resObj.file = fileInfo;
+							new VideoInfoCtrl().updateFile(fileInfo);
 							res.json(resObj);
 						});
 					});
