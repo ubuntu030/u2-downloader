@@ -3,11 +3,14 @@ import { Form, InputGroup, Button } from "react-bootstrap";
 
 function DownloadPage(props) {
 	const [url, setUrl] = useState('');
-	const { list, setList } = props;
-	// 'https://youtu.be/NO8iSOv3BBU'
+	const { list, setList, setDwnloading } = props;
 	const handleSubmit = (e) => {
-		// TODO: add validate
 		e.preventDefault();
+		if (!validateYouTubeUrl(url)) {
+			alert('URL不匹配');
+			return;
+		}
+		setDwnloading(true);
 		fetchVideo(url).then(data => {
 			const info = data.file;
 			// 避免塞入重複 id的項目
@@ -17,9 +20,10 @@ function DownloadPage(props) {
 					setList(arr => [...arr, info]);
 				}
 			}
+			setDwnloading(false);
+			setUrl('');
 			// TODO: error handle
 		});
-		setUrl('');
 	}
 
 	const handleChange = (e) => {
@@ -65,6 +69,23 @@ async function fetchVideo(url) {
 		console.error(err); // TypeError: failed to fetch
 		throw new Error("Whoops!");
 	}
+}
+/**
+ * 驗證 Youtube網址
+ * @param {String} url 
+ * @return {Boolean} true通過,false失敗 
+ */
+function validateYouTubeUrl(url) {
+	let result = false;
+	if (url != undefined || url != '') {
+		const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+		const match = url.match(regExp);
+		if (match && match[2].length == 11) {
+			// Do anything for being valid
+			result = true
+		}
+	}
+	return result;
 }
 
 export default DownloadPage;

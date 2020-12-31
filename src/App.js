@@ -2,10 +2,12 @@ import { useState } from "react";
 import './App.css';
 import DownloadPage from "./components/DownloadPage";
 import List from "./components/List";
+import Loading from "./components/Loading";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [list, setList] = useState([]);
+  const [dwnloading, setDwnloading] = useState(false);
   // TODO: loading
 
   /**
@@ -49,8 +51,9 @@ function App() {
 
   return (
     <div className="App">
+      <Loading isLoading={dwnloading} />
       <List list={list} handleConvert={convertVideo} />
-      <DownloadPage list={list} setList={setList} />
+      <DownloadPage list={list} setDwnloading={setDwnloading} setList={setList} />
     </div>
   );
 }
