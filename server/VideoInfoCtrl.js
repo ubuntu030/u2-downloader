@@ -40,6 +40,10 @@ class VideoInfoCtrl {
 		let newData = null;
 		return this.getFile()
 			.then(response => {
+				if (response.errmsg) {
+					throw new Error(response.errmsg);
+				}
+
 				let oldData = response.data;
 				// 檢查重複
 				let checkArr = [];
@@ -61,11 +65,16 @@ class VideoInfoCtrl {
 				const writeFile = util.promisify(fs.writeFile);
 				return writeFile(FILE_PATH, JSON.stringify(newData), 'utf8')
 			}).then(err => {
+				// 處理 writeFile的錯誤訊息
 				if (err) {
 					respData.errmsg = err.message;
+					throw Error(err.message)
 				}
 				respData.data = newData;
 				return respData
+			}).catch(err => {
+				respData.errmsg = err.message;
+				return respData;
 			});
 	}
 	// TODO:檢查另外拉出來做

@@ -37,6 +37,7 @@ router.post('/', function (req, res) {
 					 * 無法下載擁有最高品質視訊&音訊 https://github.com/fent/node-ytdl-core/issues/374
 					 * 若要最高品質視音訊，需個下載並合併
 					 * 或參考 https://github.com/fent/node-ytdl-core/issues/770
+					 * http://codebeta.blogspot.com/2017/12/pythonyoutube-dl-quality-ffmpeg.html
 					 */
 					// 取回資料後進行下載
 					let stream = ytdl.downloadFromInfo(
@@ -59,13 +60,25 @@ router.post('/', function (req, res) {
 								name: VIDEO_NAME,
 								path: SAVE_FILE_PATH,
 								id: info.videoDetails.videoId,
-								mp3path: ''
+								mp3path: '',
+								url: info.videoDetails.video_url,
+								embed: info.videoDetails.embed
 							}
 							resObj.file = fileInfo;
-							new VideoInfoCtrl().updateFile(fileInfo);
-							res.json(resObj);
+							// 寫入 video_info.json
+							new VideoInfoCtrl()
+								.updateFile(fileInfo)
+								.then(data => {
+									if (data && data.errmsg) {
+										resObj.errmsg = data.errmsg
+									} else {
+										resObj.status = 'success';
+									}
+									res.json(resObj);
+								});
 						});
 					});
+					// 錯誤處理
 					stream.on('error', function (err) {
 						resObj = { status: 'fail', errmsg: err.message };
 						console.error(err);
