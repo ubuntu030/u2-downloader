@@ -2,6 +2,13 @@ import { useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
 import Loading from "./Loading";
 
+/**
+ * 顯示影音下載列表
+ * @param {Object} props 
+ * @param {Array[Object]} list
+ * @param {Function} handleConvert
+ * @return {Element} 
+ */
 function List(props) {
 	const { list, handleConvert } = props;
 	const [converting, setConverting] = useState(false);
