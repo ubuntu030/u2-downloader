@@ -62,7 +62,7 @@ router.post('/', function (req, res) {
 								id: info.videoDetails.videoId,
 								mp3path: '',
 								url: info.videoDetails.video_url,
-								embed: info.videoDetails.embed
+								embed: info.videoDetails.embed.iframeUrl
 							}
 							resObj.file = fileInfo;
 							// 寫入 video_info.json
