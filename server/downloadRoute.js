@@ -67,7 +67,7 @@ router.post('/', function (req, res) {
 							resObj.file = fileInfo;
 							// 寫入 video_info.json
 							new VideoInfoCtrl()
-								.updateFile(fileInfo)
+								.updateFileInfo(fileInfo)
 								.then(data => {
 									if (data && data.errmsg) {
 										resObj.errmsg = data.errmsg

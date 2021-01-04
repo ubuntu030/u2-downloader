@@ -7,11 +7,11 @@ const FILE_PATH = path.join(__dirname
 	, '../video/video_info.json');
 
 class VideoInfoCtrl {
-	constructor(props = { id: '123' }) {
+	constructor(props = { id: '' }) {
 		this.props = props;
 	}
 	// TODO: 當資料不為則創建
-	getFile() {
+	getFilesInfo() {
 		// 使用util 封裝fs.readFile 
 		const readFile = util.promisify(fs.readFile);
 		return readFile(FILE_PATH, 'utf-8').then(data => {
@@ -32,14 +32,14 @@ class VideoInfoCtrl {
 	 * @param {String} info.mp3path mp3路徑
 	 * @return {Object} 寫入成功後回傳帶有文件資料的物件
 	 */
-	updateFile(info = {}) {
+	updateFileInfo(info = {}) {
 		let respData = {
 			errmsg: '',
 			data: null
 		};
 		let newData = null;
 		// TODO: 當 .json格式錯誤要回傳錯誤資訊
-		return this.getFile()
+		return this.getFilesInfo()
 			.then(response => {
 				if (response.errmsg) {
 					throw new Error(response.errmsg);

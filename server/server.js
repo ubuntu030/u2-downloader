@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const downloadRoute = require('./downloadRoute')
 const convertRouter = require('./convertRoute');
+const VideoInfoCtrl = require('./VideoInfoCtrl');
 
 const PORT = 8080;
 const PATH_VIDEO = path.join(__dirname, '../video');
@@ -19,6 +20,15 @@ app.use('/convert', convertRouter);
 
 app.get('/', (req, res) => {
 	res.json({ status: 'fail' })
+});
+
+app.get('/list', (req, res) => {
+	new VideoInfoCtrl()
+		.getFilesInfo()
+		.then(data => {
+			console.log(data);
+			res.json(data);
+		})
 });
 
 app.listen(PORT, () => {
