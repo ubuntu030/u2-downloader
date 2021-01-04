@@ -13,6 +13,7 @@ function DownloadPage(props) {
 		setDwnloading(true);
 		fetchVideo(url).then(data => {
 			const info = data.file;
+			// TODO: 錯誤處理
 			// 避免塞入重複 id的項目
 			if (info && info.id) {
 				let fltrList = list.filter(item => item.id === info.id)

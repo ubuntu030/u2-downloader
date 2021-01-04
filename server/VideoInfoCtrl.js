@@ -10,7 +10,7 @@ class VideoInfoCtrl {
 	constructor(props = { id: '123' }) {
 		this.props = props;
 	}
-
+	// TODO: 當資料不為則創建
 	getFile() {
 		// 使用util 封裝fs.readFile 
 		const readFile = util.promisify(fs.readFile);
@@ -38,6 +38,7 @@ class VideoInfoCtrl {
 			data: null
 		};
 		let newData = null;
+		// TODO: 當 .json格式錯誤要回傳錯誤資訊
 		return this.getFile()
 			.then(response => {
 				if (response.errmsg) {
