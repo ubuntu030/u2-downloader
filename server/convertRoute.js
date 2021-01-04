@@ -19,7 +19,7 @@ router.post('/', (req, res, _) => {
 	const videoName = fileObj.name;
 	// 檔案路徑
 	const videoPath = fileObj.path;
-	const mp3path = path.join(PATH_AUDIO, videoName + '.mp3');
+	const mp3path = path.join(PATH_AUDIO, videoName + '.wav');
 	// 影片轉換處理
 	ffmpeg(videoPath)
 		.output(mp3path)
