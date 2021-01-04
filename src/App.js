@@ -8,27 +8,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   const [list, setList] = useState([]);
   const [dwnloading, setDwnloading] = useState(false);
-  // 取得 video info 資料
-  useEffect(() => {
-    const fetchList = () => {
-      fetch('http://localhost:8080/list', {
-        method: 'GET'
-      })
-        .then((resp) => resp.json())
-        .then((resp) => {
-          if (resp && resp.errmsg) {
-            console.error(data.errmsg);
-            return;
-          }
-          const data = resp.data;
-          console.log(data);
-          if (Array.isArray(data) && data.length > 0) {
-            setList(arr => [...data]);
-          }
-        })
-    }
 
-    fetchList();
+  useEffect(() => {
+    fetchFileList(setList)
   }, []);
   /**
    * 影片轉成為mp3
@@ -76,6 +58,30 @@ function App() {
       <DownloadPage list={list} setDwnloading={setDwnloading} setList={setList} />
     </div>
   );
+}
+/**
+ * 從 video_info.json 取得資料
+ * @param {Funciton} setList 
+ */
+function fetchFileList(setList) {
+  if (!(setList && typeof setList === 'function')) {
+    return;
+  }
+  fetch('http://localhost:8080/list', {
+    method: 'GET'
+  })
+    .then((resp) => resp.json())
+    .then((resp) => {
+      if (resp && resp.errmsg) {
+        console.error(data.errmsg);
+        return;
+      }
+      const data = resp.data;
+      console.log(data);
+      if (Array.isArray(data) && data.length > 0) {
+        setList(arr => [...data]);
+      }
+    })
 }
 
 export default App;
