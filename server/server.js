@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 	res.json({ status: 'fail' })
 });
 
-app.get('/list', (req, res) => {
+app.get('/listInfo', (req, res) => {
 	new VideoInfoCtrl()
 		.getFilesInfo()
 		.then(data => {
@@ -31,6 +31,14 @@ app.get('/list', (req, res) => {
 		})
 });
 
+app.get('/list', (req, res) => {
+	new VideoInfoCtrl()
+		.getFilesUdrLocation()
+		.then(data => {
+			console.log(data);
+			res.json(data);
+		})
+});
 app.listen(PORT, () => {
 	console.log(`Example app listening at http://localhost:${PORT}`)
 });

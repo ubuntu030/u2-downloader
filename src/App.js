@@ -67,21 +67,43 @@ function fetchFileList(setList) {
   if (!(setList && typeof setList === 'function')) {
     return;
   }
-  fetch('http://localhost:8080/list', {
+  let list = [];
+  fetch('http://localhost:8080/listInfo', {
     method: 'GET'
   })
     .then((resp) => resp.json())
     .then((resp) => {
       if (resp && resp.errmsg) {
-        console.error(data.errmsg);
+        console.error(resp.errmsg);
         return;
       }
       const data = resp.data;
-      console.log(data);
       if (Array.isArray(data) && data.length > 0) {
-        setList(arr => [...data]);
+        list = [...data];
+        setList(list);
       }
+      return fetch('http://localhost:8080/list', {
+        method: 'GET'
+      })
     })
+    .then((resp) => resp.json())
+    .then(resp => {
+      if (resp.errmsg) {
+        console.error(resp.errmsg);
+        return;
+      }
+      const { list: resList, path } = resp.data;
+      let fileName = '';
+      const nList = [...list].map(item => {
+        fileName = item.name + item.ext;
+        if (resList.includes(fileName)) {
+          item.mp3path = path + '\\' + fileName;
+        }
+        return item;
+      });
+      console.log(nList);
+      setList([...nList]);
+    });
 }
 
 export default App;

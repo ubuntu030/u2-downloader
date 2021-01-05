@@ -3,8 +3,10 @@ const util = require('util');
 const fs = require('fs');
 const path = require('path');
 
-const FILE_PATH = path.join(__dirname
-	, '../video/video_info.json');
+const FILE_INFO_PATH = path.join(__dirname, '../video/video_info.json');
+const AUDIO_PATH = path.join(__dirname, '../audio');
+const VIDEO_PATH = path.join(__dirname, '../video');
+
 
 class VideoInfoCtrl {
 	constructor(props = { id: '' }) {
@@ -14,7 +16,7 @@ class VideoInfoCtrl {
 	getFilesInfo() {
 		// 使用util 封裝fs.readFile 
 		const readFile = util.promisify(fs.readFile);
-		return readFile(FILE_PATH, 'utf-8').then(data => {
+		return readFile(FILE_INFO_PATH, 'utf-8').then(data => {
 			console.log(JSON.parse(data));
 			// 轉換JSON
 			return { errmsg: '', data: JSON.parse(data) };
@@ -64,7 +66,7 @@ class VideoInfoCtrl {
 				// 加入資料並寫進JSON file
 				newData = oldData.concat([info]);
 				const writeFile = util.promisify(fs.writeFile);
-				return writeFile(FILE_PATH, JSON.stringify(newData), 'utf8')
+				return writeFile(FILE_INFO_PATH, JSON.stringify(newData), 'utf8')
 			}).then(err => {
 				// 處理 writeFile的錯誤訊息
 				if (err) {
@@ -78,6 +80,28 @@ class VideoInfoCtrl {
 				return respData;
 			});
 	}
+	/**
+	 * 取得該路徑下的檔案
+	 * @param {String} type [video||audio]
+	 * @return {Array<String>}
+	 */
+	getFilesUdrLocation(type) {
+		const folderPath = (type === 'video' ? VIDEO_PATH : AUDIO_PATH);
+		// 使用util 封裝fs.readFile 
+		const readdir = util.promisify(fs.readdir);
+		return readdir(folderPath).then(arr => {
+			console.log(arr);
+			// 轉換JSON
+			return {
+				errmsg: '',
+				data: { list: arr, path: folderPath }
+			};
+		}).catch(err => {
+			console.log(err);
+			return { errmsg: err.message, data: null };
+		})
+	}
+
 	// TODO:檢查另外拉出來做
 	// 檢查 JSON資料跟檔案是否存在路徑
 	checkInfo() {
