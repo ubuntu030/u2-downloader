@@ -30,13 +30,13 @@ function List(props) {
 			{
 				Array.isArray(list) && list.length > 0 ?
 					list.map(item => {
-						let mp3path = item.mp3path;
+						let audioPath = item.audioPath;
 						return (<ListGroup.Item key={item.id} id={item.id} className="d-flex justify-content-between">
 							<div>{item.name}</div>
 							{
 								converting ?
 									<Loading isLoading={converting} /> :
-									<ConverBotton disabled={mp3path ? true : false} clickEvent={handleClick.bind(this, item.id)} />
+									<ConverBotton disabled={audioPath ? true : false} clickEvent={handleClick.bind(this, item.id)} />
 							}
 						</ListGroup.Item>
 						)

@@ -15,21 +15,21 @@ router.post('/', (req, res, _) => {
 		file: {},
 		ext: ''
 	};
-	let fileObj = Object.assign({}, req.body, { mp3path: '' });
+	let fileObj = Object.assign({}, req.body, { audioPath: '' });
 	// 檔案名稱
 	const videoName = fileObj.name;
 	// 檔案路徑
 	const videoPath = fileObj.path;
-	const mp3path = path.join(PATH_AUDIO, videoName + '.wav');
+	const audioPath = path.join(PATH_AUDIO, videoName + '.wav');
 	// 影片轉換處理
 	ffmpeg(videoPath)
-		.output(mp3path)
+		.output(audioPath)
 		.audioBitrate('320k')
 		.on('end', function () {
 			console.log('Finished processing');
 			resObj.status = 'success'
 			fileObj.path = videoPath;
-			fileObj.mp3path = mp3path
+			fileObj.audioPath = audioPath
 			fileObj.name = videoName;
 			fileObj.ext = '.wav';
 			resObj.file = fileObj;

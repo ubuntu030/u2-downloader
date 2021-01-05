@@ -31,7 +31,7 @@ class VideoInfoCtrl {
 	 * @param {String} info.id
 	 * @param {String} info.name
 	 * @param {String} info.path	mp4路徑
-	 * @param {String} info.mp3path mp3路徑
+	 * @param {String} info.audioPath audio 路徑
 	 * @return {Object} 寫入成功後回傳帶有文件資料的物件
 	 */
 	updateFileInfo(info = {}) {

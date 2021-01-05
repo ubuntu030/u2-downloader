@@ -97,7 +97,7 @@ function fetchFileList(setList) {
       const nList = [...list].map(item => {
         fileName = item.name + item.ext;
         if (resList.includes(fileName)) {
-          item.mp3path = path + '\\' + fileName;
+          item.audioPath = path + '\\' + fileName;
         }
         return item;
       });

@@ -7,7 +7,7 @@ const VideoInfoCtrl = require('./VideoInfoCtrl');
 
 const PATH_VIDEO = path.join(__dirname, '../video');
 
-// TODO: 重新編輯寫入格式，並另外存成JSON..eg {id, name, path, mp3path}
+// TODO: 重新編輯寫入格式，並另外存成JSON..eg {id, name, path, audioPath}
 router.use(function (req, res, next) {
 	if (req.body && req.body.url) {
 		next();
@@ -60,7 +60,7 @@ router.post('/', function (req, res) {
 								name: VIDEO_NAME,
 								path: SAVE_FILE_PATH,
 								id: info.videoDetails.videoId,
-								mp3path: '',
+								audioPath: '',
 								url: info.videoDetails.video_url,
 								embed: info.videoDetails.embed.iframeUrl
 							}
