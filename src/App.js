@@ -50,7 +50,7 @@ function App() {
       throw new Error("Whoops!");
     }
   }
-
+  // FIXME: loading時，所有 Button皆會變成loading 須個別處理
   return (
     <div className="App">
       <Loading isLoading={dwnloading} />
