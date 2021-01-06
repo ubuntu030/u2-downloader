@@ -31,14 +31,22 @@ function List(props) {
 				Array.isArray(list) && list.length > 0 ?
 					list.map(item => {
 						let audioPath = item.audioPath;
-						return (<ListGroup.Item key={item.id} id={item.id} className="d-flex justify-content-between">
-							<div>{item.name}</div>
-							{
-								converting ?
-									<Loading isLoading={converting} /> :
-									<ConverBotton disabled={audioPath ? true : false} clickEvent={handleClick.bind(this, item.id)} />
-							}
-						</ListGroup.Item>
+						return (
+							<ListGroup.Item key={item.id} id={item.id} className="flex-column" >
+								<div className="d-flex flex-row">
+									<div className="d-flex flex-grow-1">{item.name}</div>
+									<div>
+										{
+											converting ?
+												<Loading isLoading={converting} /> :
+												<ConverBotton disabled={audioPath ? true : false} clickEvent={handleClick.bind(this, item.id)} />
+										}
+									</div>
+								</div>
+								<div className="d-flex flex-row">
+									
+								</div>
+							</ListGroup.Item>
 						)
 					}) : null
 			}
