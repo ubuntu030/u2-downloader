@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
+import SoudTest from "./SoudTest";
 import Loading from "./Loading";
 
 /**
@@ -31,10 +32,12 @@ function List(props) {
 				Array.isArray(list) && list.length > 0 ?
 					list.map(item => {
 						let audioPath = item.audioPath;
+						let name = item.name;
+						const fileURL = `http://localhost:8080/${name}${item.ext}`;
 						return (
 							<ListGroup.Item key={item.id} id={item.id} className="flex-column" >
 								<div className="d-flex flex-row">
-									<div className="d-flex flex-grow-1">{item.name}</div>
+									<div className="d-flex flex-grow-1">{name}</div>
 									<div>
 										{
 											converting ?
@@ -43,14 +46,14 @@ function List(props) {
 										}
 									</div>
 								</div>
-								<div className="d-flex flex-row">
-									
+								<div className="">
+									<SoudTest url={fileURL} />
 								</div>
 							</ListGroup.Item>
 						)
 					}) : null
 			}
-		</ListGroup>
+		</ListGroup >
 	)
 }
 

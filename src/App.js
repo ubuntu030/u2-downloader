@@ -10,7 +10,7 @@ function App() {
   const [dwnloading, setDwnloading] = useState(false);
 
   useEffect(() => {
-    fetchFileList(setList)
+    fetchFileList(setList);
   }, []);
   /**
    * 影片轉成為mp3
@@ -32,15 +32,17 @@ function App() {
             console.error(data.errmsg);
             return;
           }
-          const file = data.file;
+          // const file = data.file;
           // 檢查資料是否存在
           // let fltedinfo = list.filter(info => info.id === file.id);
           // let fltedinfoObj = fltedinfo[0];
-          const nArr = list.map(item => {
-            return (item.id === file.id) ? file : item;
-          });
-          setList(nArr)
-          console.log(list);
+
+          // const nArr = list.map(item => {
+          //   return (item.id === file.id) ? file : item;
+          // });
+          // setList(nArr)
+
+          // console.log(list);
           // TODO: popup and show success or fail
         }, error => {
           console.log(error.message);
@@ -68,7 +70,7 @@ function fetchFileList(setList) {
     return;
   }
   let list = [];
-  fetch('http://localhost:8080/listInfo', {
+  return fetch('http://localhost:8080/listInfo', {
     method: 'GET'
   })
     .then((resp) => resp.json())
@@ -80,7 +82,7 @@ function fetchFileList(setList) {
       const data = resp.data;
       if (Array.isArray(data) && data.length > 0) {
         list = [...data];
-        setList(list);
+        // setList(list);
       }
       return fetch('http://localhost:8080/list', {
         method: 'GET'
@@ -101,8 +103,9 @@ function fetchFileList(setList) {
         }
         return item;
       });
+      // setList(arr => arr.concat(nList));
+      setList(arr => arr.concat(nList))
       console.log(nList);
-      setList([...nList]);
     });
 }
 
