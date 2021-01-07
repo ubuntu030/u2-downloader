@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ListGroup, Button } from "react-bootstrap";
 import SoudTest from "./SoudTest";
+import AudioPlayer from "./AudioPlayer";
 import Loading from "./Loading";
 
 /**
@@ -47,7 +48,8 @@ function List(props) {
 									</div>
 								</div>
 								<div className="">
-									<SoudTest url={fileURL} />
+									<AudioPlayer url={fileURL} />
+									{/* <SoudTest url={fileURL} /> */}
 								</div>
 							</ListGroup.Item>
 						)
