@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 
+// import RegionsPlugin from 'wavesurfer.regions.js';
+
 
 function AudioPlayer({ url }) {
 	const waveformRef = useRef(null);
@@ -10,11 +12,12 @@ function AudioPlayer({ url }) {
 	// let waveSurfer = null
 	const toggle = () => setPlaying(!playing);
 	const handlePlay = () => {
-		setPlaying(!playing);
 		waveformRef.current.playPause();
 	}
 	useEffect(() => {
-		waveformRef.current = WaveSurfer.create({ container: waveformRef.current })
+		waveformRef.current = WaveSurfer.create(
+			{ container: waveformRef.current }
+		)
 		waveformRef.current.load(url);
 
 		waveformRef.current.on('ready', () => {
@@ -24,7 +27,10 @@ function AudioPlayer({ url }) {
 			// waveformRef.current.play();
 		})
 		waveformRef.current.on('finish', () => {
-			setPlaying(!playing);
+			console.log('finished:' + url);
+		});
+		waveformRef.current.on('seek', (e) => {
+			waveformRef.current.play();
 		});
 
 		// TODO: handling when Drag indicator 
