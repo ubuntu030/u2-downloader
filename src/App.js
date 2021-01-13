@@ -30,19 +30,13 @@ function App() {
         .then(data => {
           if (data && data.errmsg) {
             console.error(data.errmsg);
-            return;
+            throw new Error(data.errmsg);
           }
-          // const file = data.file;
-          // 檢查資料是否存在
-          // let fltedinfo = list.filter(info => info.id === file.id);
-          // let fltedinfoObj = fltedinfo[0];
+          let { file } = data;
+          // 資料修改 *刪除該筆舊資料後加入新的
+          const nList = list.filter(item => item.id !== file.id);
+          setList(list => [...nList, file]);
 
-          // const nArr = list.map(item => {
-          //   return (item.id === file.id) ? file : item;
-          // });
-          // setList(nArr)
-
-          // console.log(list);
           // TODO: popup and show success or fail
         }, error => {
           console.log(error.message);
@@ -63,7 +57,7 @@ function App() {
 }
 /**
  * 從 video_info.json 取得資料
- * @param {Funciton} setList 
+ * @param {Funciton} setList 更新清單資料
  */
 function fetchFileList(setList) {
   if (!(setList && typeof setList === 'function')) {
