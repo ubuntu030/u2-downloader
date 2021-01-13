@@ -2,40 +2,55 @@
 
 import { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
-
-// import RegionsPlugin from 'wavesurfer.regions.js';
-
+import RegionsPlugin from "wavesurfer.js/dist/plugin/wavesurfer.regions";
 
 function AudioPlayer({ url }) {
 	const waveformRef = useRef(null);
 	const [playing, setPlaying] = useState(false);
-	// let waveSurfer = null
+	const [regionSec, setRegionSec] = useState({ start: 0, end: 0 });
+	let waveSurfer = null
 	const toggle = () => setPlaying(!playing);
 	const handlePlay = () => {
-		waveformRef.current.playPause();
+		waveformRef.current.play();
 	}
 	useEffect(() => {
-		waveformRef.current = WaveSurfer.create(
-			{ container: waveformRef.current }
+		waveSurfer = waveformRef.current = WaveSurfer.create(
+			{
+				container: waveformRef.current,
+				plugins: [
+					RegionsPlugin.create({
+						regionsMinLength: 2,
+						dragSelection: {
+							slop: 5
+						}
+					})
+				]
+			}
 		)
-		waveformRef.current.load(url);
+		waveSurfer.load(url);
 
-		waveformRef.current.on('ready', () => {
+		waveSurfer.on('ready', () => {
 			// https://wavesurfer-js.org/docs/methods.html
-			waveformRef.current.setVolume(0.5);
+			waveSurfer.setVolume(0.5);
 			// play only accepted by client's interaction due to policy of chrome
-			// waveformRef.current.play();
+			// wavesurfer.play();
+			waveSurfer.enableDragSelection({});
 		})
-		waveformRef.current.on('finish', () => {
+		waveSurfer.on("region-created", function (region) {
+			waveSurfer.clearRegions();
+			console.log("region-created", region.id);
+		});
+		waveSurfer.on("region-update-end", function (region) {
+			setRegionSec({ start: region.start, end: region.end });
+		});
+		waveSurfer.on('finish', () => {
 			console.log('finished:' + url);
 		});
-		waveformRef.current.on('seek', (e) => {
-			waveformRef.current.play();
+		waveSurfer.on('seek', (e) => {
+			// waveformRef.current.play();
 		});
 
-		// TODO: handling when Drag indicator 
-
-		return () => waveformRef.current.destroy();
+		return () => waveSurfer.destroy();
 	}, [url]);
 
 	return (
