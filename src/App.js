@@ -43,7 +43,7 @@ function App() {
         });
     } catch (err) {
       console.log(err);
-      throw new Error("Whoops!");
+      throw new Error(err.message);
     }
   }
   // FIXME: loading時，所有 Button皆會變成loading 須個別處理
