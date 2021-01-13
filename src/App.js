@@ -5,6 +5,7 @@ import List from "./components/List";
 import Loading from "./components/Loading";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// TODO: 對初次使用者顯示選擇ffmpeg檔案位置的詢問
 function App() {
   const [list, setList] = useState([]);
   const [dwnloading, setDwnloading] = useState(false);
