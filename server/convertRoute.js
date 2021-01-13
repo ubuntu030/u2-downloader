@@ -2,11 +2,12 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 const ffmpeg = require('fluent-ffmpeg');
+const VideoInfoCtrl = require('./VideoInfoCtrl');
+
 // audio資料夾路徑
 const PATH_AUDIO = path.join(__dirname, '../audio');
 // 設定 ffmpeg路徑
 ffmpeg.setFfmpegPath('C:/ffmpeg/bin/ffmpeg');
-// TODO: 音軌可視畫，長度編輯
 router.post('/', (req, res, _) => {
 	// 回傳格式
 	let resObj = {
@@ -33,7 +34,12 @@ router.post('/', (req, res, _) => {
 			fileObj.name = videoName;
 			fileObj.ext = '.wav';
 			resObj.file = fileObj;
-			res.json(resObj)
+			// res.json(resObj)
+			new VideoInfoCtrl()
+				.updateFileInfo(fileObj)
+				.then(data => {
+					res.json(resObj);
+				})
 		})
 		.on('error', err => {
 			// 錯誤處理

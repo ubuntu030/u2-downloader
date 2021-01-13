@@ -32,6 +32,8 @@ class VideoInfoCtrl {
 	 * @param {String} info.name
 	 * @param {String} info.path	mp4路徑
 	 * @param {String} info.audioPath audio 路徑
+	 * @param {String} info.embed 網頁嵌入路徑
+	 * @param {String} info.ext 副檔名
 	 * @return {Object} 寫入成功後回傳帶有文件資料的物件
 	 */
 	updateFileInfo(info = {}) {
@@ -53,10 +55,10 @@ class VideoInfoCtrl {
 				if (oldData && Array.isArray(oldData) && oldData.length > 0) {
 					checkArr = oldData.filter(item => item.id === info.id);
 				}
-				// 若有重複則不寫入並直接回傳 
+				// 重複則更新該筆資料 *清掉該筆資料，後面會用新資料concat
 				if (Array.isArray(checkArr) && checkArr[0] && checkArr[0].id) {
+					oldData = oldData.filter(item => (item.id !== checkArr[0].id));
 					respData.data = oldData;
-					return respData;
 				}
 				// 確認資訊存在
 				if (!(info.id && info.name)) {
