@@ -49,11 +49,13 @@ function List(props) {
 									</div>
 								</div>
 								<div className="">
-									<AudioPlayer url={fileURL} />
+									{
+										(item.audioPath) ? <AudioPlayer url={fileURL} /> : null
+									}
 									{/* <SoudTest url={fileURL} /> */}
 								</div>
 							</ListGroup.Item>
-						)	
+						)
 					}) : null
 			}
 		</ListGroup>
