@@ -34,7 +34,9 @@ function AudioPlayer({ url }) {
 			waveSurfer.setVolume(0.5);
 			// play only accepted by client's interaction due to policy of chrome
 			// wavesurfer.play();
-			waveSurfer.enableDragSelection({});
+			waveSurfer.enableDragSelection({
+				color: 'hsla(200, 100%, 30%, 0.3)'
+			});
 		})
 		waveSurfer.on("region-created", function (region) {
 			waveSurfer.clearRegions();
