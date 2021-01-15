@@ -50,7 +50,7 @@ function List(props) {
 								</div>
 								<div className="">
 									{
-										(item.audioPath) ? <AudioPlayer url={fileURL} /> : null
+										(item.audioPath) ? <AudioPlayer url={fileURL} id={item.id} /> : null
 									}
 									{/* <SoudTest url={fileURL} /> */}
 								</div>
