@@ -80,6 +80,8 @@ router.post('/', function (req, res) {
 					});
 					// 錯誤處理
 					stream.on('error', function (err) {
+						// FIXME: https://youtu.be/iSyVmjWmM5c 有些影片無法下載
+
 						resObj = { status: 'fail', errmsg: err.message };
 						console.error(err);
 						res.json(resObj);
